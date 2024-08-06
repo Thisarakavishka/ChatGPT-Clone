@@ -9,7 +9,7 @@ html {
 }
 
 body {
-    background: rgb(3, 0, 1);
+    background: rgb(24, 1, 29);
     color: white;
     font-family: 'Poppins', sans-serif;
 }
@@ -77,7 +77,7 @@ body {
     width: 25rem;
     margin: 1rem auto;
     border-radius: 0.5rem;
-    border: 1px solid rgb(98, 98, 1);
+    border: 1px solid rgb(100, 100, 100);
 }
 
 .query>img {
@@ -86,26 +86,101 @@ body {
     height: 1.75rem;
 }
 
-.lowerSide{
+.lowerSide {
     padding: 1rem;
 }
 
-.listItems{
+.listItems {
     margin: 0.75rem;
     display: flex;
     align-items: center;
     font-size: 1.3rem;
 }
 
-.listItemImg{
+.listItemImg {
     margin: 1rem;
     padding-right: 1 rem;
 }
 
-.listItems:nth-child(1)>.listItemImg{
+.listItems:nth-child(1)>.listItemImg {
     margin-right: 0.5rem;
 }
 
-.listItems:nth-child(3)>.listItemImg{
+.listItems:nth-child(3)>.listItemImg {
     margin-right: 0.75rem;
+}
+
+.main {
+    min-height: calc(100vh-14rem);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 6rem 10rem;
+    margin-bottom: 0;
+}
+
+.chats {
+    overflow: hidden;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    width: 100%;
+    max-width: 70rem;
+    height: calc(100vh-17rem);
+}
+
+.chat {
+    margin: 1rem;
+    padding: 2rem 3rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: flex-start;
+    text-align: justify;
+}
+
+.chat-img {
+    object-fit: cover;
+    width: 3.5rem;
+    margin-right: 2rem;
+    border-radius: 0.5rem;
+}
+
+.bot {
+    background: rgba(28, 30, 58, 1);
+    width: fit-content;
+    border-radius: 0.5rem;
+}
+
+.chatFooter {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.inp {
+    padding: 0.5rem;
+    background-color: rgba(28, 30, 58, 1);
+    display: flex;
+    align-items: center;
+    border-radius: 1.5rem;
+    width: 68rem;
+}
+
+.inp>input {
+    width: calc(100% - 3rem);
+    outline: none;
+    padding: 1.25rem;
+    color: white;
+}
+
+.inp>input,
+.send {
+    background: transparent;
+    border: none;
+}
+
+.chatFooter>p {
+    margin: 2rem 0;
 }
