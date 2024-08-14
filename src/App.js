@@ -8,32 +8,79 @@ import rocket from './assets/rocket.svg'
 import sendBtn from './assets/send.svg'
 import gptLogo from './assets/chatgptLogo.svg'
 import userIcon from './assets/user-icon.png'
+import { sendMessageToOpenAI } from './openAi';
+import { useEffect, useRef, useState } from 'react';
 
 
 function App() {
+  const msgEnd = useRef(null);
+
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState([{
+    text: "Hello, Here is ChatGPT , How can i help you!",
+    isBot: true
+  }]);
+
+  useEffect(() => {
+    msgEnd.current.scrollIntoView();
+  }, [messages]);
+
+  const handleSendMessage = async () => {
+    const text = input;
+    setInput('');
+    setMessages([
+      ...messages,
+      { text, isBot: false }
+    ]);
+    const response = await sendMessageToOpenAI(input);
+    setMessages([
+      ...messages,
+      { text: input, isBot: false },
+      { text: response, isBot: true }
+    ])
+  }
+
+  const handleEnter = async (e) => {
+    if (e.key === 'Enter') await handleSendMessage();
+  }
+
+  const handleQuery = async (e)=>{
+    const text = e.target.value;
+    setMessages([
+      ...messages,
+      { text, isBot: false }
+    ]);
+    const response = await sendMessageToOpenAI(input);
+    setMessages([
+      ...messages,
+      { text: input, isBot: false },
+      { text: response, isBot: true }
+    ])
+  }
+
   return (
     <div className="App">
       <div className='sideBar'>
         <div className='upperSide'>
           <div className='upperSideTop'>
-            <img src={chatGPTLogo} className='logo' />
+            <img src={chatGPTLogo} alt='logo' className='logo' />
             <span className='brand'>ChatGPT</span>
           </div>
-          <button className='midBtn'>
-            <img src={addBtn} className='addBtn' />
+          <button className='midBtn' onClick={()=>{window.location.reload()}}>
+            <img src={addBtn} className='addBtn' alt='add button' />
             New Chat
           </button>
           <div className='upperSideBottom'>
-            <button className='query'>
-              <img src={msgIcon} />
+            <button className='query' value={"what is programming"} onClick={handleQuery}>
+              <img src={msgIcon} alt='message icon' />
               what is programming
             </button>
-            <button className='query'>
-              <img src={msgIcon} />
+            <button className='query' value={"How to use api"}>
+              <img src={msgIcon} alt='message icon' />
               How to use api
             </button>
-            <button className='query'>
-              <img src={msgIcon} />
+            <button className='query' value={"what is java"}>
+              <img src={msgIcon} alt='message icon' />
               what is java
             </button>
           </div>
@@ -55,19 +102,20 @@ function App() {
       </div>
       <div className='main'>
         <div className='chats'>
-          <div className='chat'>
-            <img className='chat-img' src={userIcon} />
-            <p className='text'>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32</p>
-          </div>
-          <div className='chat bot'>
-            <img className='chat-img' src={gptLogo} />
-            <p className='text'>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32</p>
-          </div>
+          {
+            messages.map((message, id) => {
+              return <div key={id} className={message.isBot ? 'chat bot' : 'chat'}>
+                <img className='chat-img' src={message.isBot ? gptLogo : userIcon} alt='chat Image' />
+                <p className='text'>{message.text}</p>
+              </div>
+            })
+          }
+          <div ref={msgEnd} />
         </div>
         <div className='chatFooter'>
           <div className='inp'>
-            <input type='text' placeholder='Send a message...' />
-            <button className='send'>
+            <input type='text' value={input} onKeyDown={handleEnter} onChange={(e) => { setInput(e.target.value) }} placeholder='Send a message...' />
+            <button className='send' onClick={handleSendMessage}>
               <img src={sendBtn} alt='send button' />
             </button>
           </div>
