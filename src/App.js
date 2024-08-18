@@ -44,7 +44,7 @@ function App() {
     if (e.key === 'Enter') await handleSendMessage();
   }
 
-  const handleQuery = async (e)=>{
+  const handleQuery = async (e) => {
     const text = e.target.value;
     setMessages([
       ...messages,
@@ -66,7 +66,7 @@ function App() {
             <img src={chatGPTLogo} alt='logo' className='logo' />
             <span className='brand'>ChatGPT</span>
           </div>
-          <button className='midBtn' onClick={()=>{window.location.reload()}}>
+          <button className='midBtn' onClick={() => { window.location.reload() }}>
             <img src={addBtn} className='addBtn' alt='add button' />
             New Chat
           </button>
@@ -105,7 +105,7 @@ function App() {
           {
             messages.map((message, id) => {
               return <div key={id} className={message.isBot ? 'chat bot' : 'chat'}>
-                <img className='chat-img' src={message.isBot ? gptLogo : userIcon} alt='chat Image' />
+                <img className='chat-img' alt='image' src={message.isBot ? gptLogo : userIcon} />
                 <p className='text'>{message.text}</p>
               </div>
             })
